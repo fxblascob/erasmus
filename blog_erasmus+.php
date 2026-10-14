@@ -1,0 +1,1 @@
+<?php header('location: https://iessanvicenteerasmusplus.blogspot.com/search/label/Inicio') ?>
