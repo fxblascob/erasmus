@@ -1,19 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Clase de utilidades para la gestión de archivos, navegación y galerías.
+ * Compatible con PHP 5.6+.
  */
 class Util
 {
     /**
      * Crea un menú con una estructura de carpetas completa.
      *
-     * @param string $dir   Directorio a explorar.
-     * @param int    $nivel Nivel de profundidad.
+     * @param string $dir Directorio a explorar.
+     * @param int $nivel Nivel de profundidad.
      */
-    public static function crea_enlaces_dir(string $dir, int $nivel = 1): void
+    public static function crea_enlaces_dir($dir, $nivel = 1)
     {
         if (!is_dir($dir)) {
             return;
@@ -40,10 +39,10 @@ class Util
     /**
      * Crea los subniveles recursivos de un menú de carpetas.
      *
-     * @param string $url   Ruta del subdirectorio.
-     * @param int    $nivel Nivel de profundidad actual.
+     * @param string $url Ruta del subdirectorio.
+     * @param int $nivel Nivel de profundidad actual.
      */
-    public static function crea_enlaces_subdir(string $url, int $nivel): void
+    public static function crea_enlaces_subdir($url, $nivel)
     {
         $archivos = self::leerFicherosCarpeta($url);
         if (empty($archivos)) {
@@ -67,7 +66,7 @@ class Util
      * @param string $url Ruta completa del recurso.
      * @param string $fil Nombre del archivo o carpeta.
      */
-    public static function crea_enlace_lista(string $url, string $fil): void
+    public static function crea_enlace_lista($url, $fil)
     {
         $extension = strtolower(pathinfo($fil, PATHINFO_EXTENSION));
         $texto = (strpos($fil, '_') === 2) ? substr($fil, 3) : $fil;
@@ -89,7 +88,7 @@ class Util
      *
      * @param string $url Directorio base.
      */
-    public static function crea_enlaces_menu(string $url): void
+    public static function crea_enlaces_menu($url)
     {
         $archivos = self::leerFicherosCarpeta($url);
         if (empty($archivos)) {
@@ -117,11 +116,11 @@ class Util
     /**
      * Carga recursivamente las novedades o documentos de un directorio en forma de lista HTML.
      *
-     * @param string $dir   Directorio a consultar.
+     * @param string $dir Directorio a consultar.
      * @param string $orden Tipo de ordenación ('asc', 'desc', 'aleatorio').
      * @return string Marcado HTML generado.
      */
-    public static function carga_novedades(string $dir, string $orden = 'asc'): string
+    public static function carga_novedades($dir, $orden = 'asc')
     {
         if (!is_dir($dir)) {
             return '';
@@ -177,7 +176,7 @@ class Util
                 $cadena .= self::carga_novedades($url, $orden);
             }
 
-            $cadena .= "</li>";
+            $cadena .= '</li>';
         }
         $cadena .= '</ul>';
 
@@ -189,7 +188,7 @@ class Util
      *
      * @param string $dir Directorio de imágenes.
      */
-    public static function carga_todas_imagenes(string $dir): void
+    public static function carga_todas_imagenes($dir)
     {
         $jsPath = __DIR__ . '/../js/slideShow.js';
         $jsVersion = file_exists($jsPath) ? (string) filemtime($jsPath) : (string) time();
@@ -215,11 +214,11 @@ class Util
     /**
      * Devuelve una lista filtrada y ordenada de los archivos de una carpeta.
      *
-     * @param string $dir   Directorio a leer.
+     * @param string $dir Directorio a leer.
      * @param string $orden Tipo de ordenación ('asc', 'desc', 'aleatorio').
-     * @return array<int, string> Lista de nombres de archivos.
+     * @return array Lista de nombres de archivos.
      */
-    public static function leerFicherosCarpeta(string $dir, string $orden = 'asc'): array
+    public static function leerFicherosCarpeta($dir, $orden = 'asc')
     {
         if (!is_dir($dir) || !is_readable($dir)) {
             return [];
@@ -230,7 +229,7 @@ class Util
             return [];
         }
 
-        $archivos = array_filter($elementos, static function (string $fil): bool {
+        $archivos = array_filter($elementos, function ($fil) {
             return $fil !== '.' && $fil !== '..' && $fil[0] !== '_' && $fil[0] !== '.';
         });
 

@@ -3,7 +3,8 @@
 Este archivo define las reglas obligatorias que cualquier agente de IA debe respetar al analizar, crear o modificar código en este repositorio.
 
 ## 1. Stack Tecnológico y Entorno
-- **Backend:** PHP 8.x nativo (sin frameworks externos).
+- **Backend:**  PHP 5.6 (evitar declare(strict_types=1), tipos escalares en parámetros, tipos de retorno y operador ?? )
+
 - **Frontend:** HTML5 semántico, CSS3 y JavaScript Vanilla (ES6+).
 - **Entorno de ejecución:** Linux (WSL 2 Ubuntu). Para comprobaciones de sintaxis y scripts de validación, usar siempre el binario `php` del sistema (`php -l <archivo>`).
 - **Control de versiones:** Git con finales de línea en formato Unix (`LF`).
