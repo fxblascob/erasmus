@@ -1,85 +1,5 @@
-<style>
-	.sidebarmenu ul{
-		margin: 0px;
-		padding: 0px;
-		list-style-type: none;
-		width:100%;  /* per menú horizontal */
-		z-index:8; /*POSAR EL MENU DAVANT DE TOT PER NO COLISIONAR AMB L'ESLIDE DE LES FOTOS*/
-	}
-	.sidebarmenu ul li{
-		padding: 2px;
-		position: relative;
-		display: inline-block; /* per menú horitzontal*/
-	}
-	/* Top level menu links style */
-	.sidebarmenu ul li a{
-		display: inline-block; /*per menú horizontal */
-		overflow: auto; /*force hasLayout in IE7 */
-
-		text-decoration: none;
-		padding: 6px;
-		border: 1px solid #778;
-		border-radius: 5px;
-	}
-	.sidebarmenu ul li a:link, .sidebarmenu ul li a:visited, .sidebarmenu ul li a:active{
-		background-color: #662726; /*background of tabs (default state)*/
-		color:white;
-	}
-	
-	.sidebarmenu ul li a:visited{	color: white;}
-	.sidebarmenu ul li a:hover{	background-color: #b4837b; color:white;}
-	/*Sub level menu items */
-	.sidebarmenu ul li ul{
-		position: absolute;
-		width: 170px; /*Sub Menu Items width */
-		top: 0px;
-		visibility: hidden;
-	}
-
-	.sidebarmenu ul li ul li a{
-		display: inline-block; /*per menú horizontal */
-		overflow: auto; /*force hasLayout in IE7 */
-		color: white;
-		text-decoration: none;
-		padding: 6px;
-		border: 1px solid #778;
-		border-radius: 5px;
-	}
-
-	.sidebarmenu a.subfolderstyle {	
-		background: url(./img/bottom.gif) no-repeat 100% 100%;	
-	}
-</style>
-
-<script type="text/javascript">
-	'use strict';
-	let menuids = ["sidebarmenu1"] //Enter id(s) of each Side Bar Menu's main UL, separated by commas
-	console.log(menuids);
-	function initsidebarmenu(){
-		for (let i = 0; i < menuids.length; i++){
-			let ultags = document.getElementById(menuids[i]).getElementsByTagName("ul")
-			for (let j = 0; j < ultags.length; j++){
-				ultags[j].parentNode.getElementsByTagName("a")[0].className+=" subfolderstyle"
-				if (ultags[j].parentNode.parentNode.id == menuids[i]) //if this is a first level submenu
-					ultags[j].style.left = ultags[j].parentNode.offsetWidth + "px" //dynamically position first level submenus to be width of main menu item
-				else //else if this is a sub level submenu (ul)
-				    ultags[j].style.left = ultags[j-1].getElementsByTagName("a")[0].offsetWidth+"px" //position menu to the right of menu item that activated it
-				ultags[j].parentNode.onmouseover=function(){
-							this.getElementsByTagName("ul")[0].style.display="block"
-					}
-				ultags[j].parentNode.onmouseout=function(){
-							this.getElementsByTagName("ul")[0].style.display="none"
-					}
-			}
-			for (let j = ultags.length-1; j > -1; j--){ //loop through all sub menus again, and use "display:none" to hide menus (to prevent possible page scrollbars
-				  ultags[j].style.visibility = "visible"
-				  ultags[j].style.display = "none"
-			}
-		  }
-	}
-	window.addEventListener("load", initsidebarmenu)
-</script>
 <?php
+
 
 class Util {
 	//aquesta funció crea un menu amb una estrúctura de carpetes completa, el paràmetre $ninel indica si fem un menú de un sols nivel amb valor 1 i 
@@ -124,12 +44,13 @@ class Util {
 				echo  ("<li> <a href = $href> ".(substr($fil,3))."</a>");
 			else 
 				echo  ("<li> <a href = $href> ".($fil)."</a>  ");
-		}else 
+		}else {
 			$href = is_dir($url) ? '#' : $url;  // si es una carpeta no tiene HREF
 			if (strpos($fil,"_") == 2) // quitamos el prefijo para ordenar carpetas si lo lleva
 				echo  ("<li> <a href='$href' > ".(substr($fil,3))."</a>");
 			else 
 				echo  ("<li> <a href='$href' > ".($fil)."</a>  ");
+		}
 	}
 	//aquesta funció crea un menu horizontal automatitzat a partir del contingut de $url
 	//en el 1er nivell cada opció te un enllaç amb un href que crida a un fitxer .php amb el mateix nom
@@ -189,13 +110,19 @@ class Util {
 
 	//aquesta funció carga totes les imatges que estiguen en $dir i les mostra en un slide
 	public static function carga_todas_imagenes($dir) {
-		?> <script src="./js/slideShow.js"></script> <?php
+		$jsPath = __DIR__ . '/../js/slideShow.js';
+		$jsVersion = file_exists($jsPath) ? filemtime($jsPath) : time();
+		?> <script src="./js/slideShow.js?v=<?= $jsVersion ?>"></script> <?php
 		$archivos = self::leerFicherosCarpeta($dir,"aleatorio");
-		foreach ($archivos as $fil)   {
-				$url=$dir."/".$fil;
-				$extension = pathinfo($fil, PATHINFO_EXTENSION);
-				$fil = basename($fil, '.'.$extension); 
-				echo "<img src='$url'  class='foto-erasmus' alt='imagen'>";
+		$extensiones_permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+		foreach ($archivos as $fil) {
+			$url = $dir."/".$fil;
+			if (is_file($url)) {
+				$extension = strtolower(pathinfo($fil, PATHINFO_EXTENSION));
+				if (in_array($extension, $extensiones_permitidas)) {
+					echo "<img src='$url' class='foto-erasmus' alt='imagen'>";
+				}
+			}
 		}
 	}
 	//aquesta funció torna un array amb els fitxers que hi haja en $dir de forma

@@ -1,6 +1,5 @@
-<?php 	include_once("./include/Util.php");  ?>
-
-<!DOCTYPE HTML>
+<?php include_once("./include/Util.php"); ?>
+<!DOCTYPE html>
 <html lang="es">
     <head>
         <meta charset="UTF-8">
@@ -16,13 +15,13 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous">        
             
-        <link rel="stylesheet" type="text/css" href="./css/estilos.css">
+        <link rel="stylesheet" type="text/css" href="./css/estilos.css?v=<?= filemtime(__DIR__ . '/../css/estilos.css') ?>">
 
         <!-- Bootstrap Bundle (incluye Popper) -->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous" defer></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -51,16 +50,22 @@
     </head>
     <body>
         <div id="page">
-            <header>
-                <div id="izq">  <img src="./img/erasmus/cabecera.png" alt="Logo Erasmus+"/>    </div>	
-                <div id="cen">  <p id="titulo">IES San Vicente - Erasmus+ </p>      </div>	
-                <div id="der">  <img src="./img/ies/logo_ies_transparente.png" alt="Logo IES San Vicente"/>      </div>
+            <header class="cabecera-erasmus">
+                <div id="izq">
+                    <img src="./img/erasmus/cabecera.png" alt="Logo Erasmus+">
+                </div>
+                <div id="cen">
+                    <h1 id="titulo">IES San Vicente - Erasmus+</h1>
+                </div>
+                <div id="der">
+                    <img src="./img/ies/logo_ies_transparente.png" alt="Logo IES San Vicente">
+                </div>
             </header>
-            <div class = "menu-row">
-                <?php 	include_once("./include/menu.php");  ?>
+            <div class="menu-row">
+                <?php include_once("./include/menu.php"); ?>
             </div>
-           <main>
+            <main>
                 <div id="erasmus-layout">
-                        <aside id="col-left">
-                                    <?php 	include_once("./include/menuiconos.php");  ?>
-                        </aside>
+                    <aside id="col-left">
+                        <?php include_once("./include/menuiconos.php"); ?>
+                    </aside>

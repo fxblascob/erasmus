@@ -1,1 +1,3 @@
-<?php header('location: https://iessanvicenteerasmusplus.blogspot.com/search/label/Inicio') ?>
+<?php
+header('Location: https://iessanvicenteerasmusplus.blogspot.com/search/label/Inicio');
+exit;

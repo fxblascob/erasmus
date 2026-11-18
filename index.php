@@ -1,1 +1,3 @@
-<?php header('location:./inicio.php') ?>	
+<?php header('location:./inicio.php');
+exit;
+?>	

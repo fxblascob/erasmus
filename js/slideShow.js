@@ -1,4 +1,8 @@
-﻿window.addEventListener('load', slideShow, false);
+﻿if (document.readyState === 'complete') {
+  slideShow();
+} else {
+  window.addEventListener('load', slideShow, false);
+}
 
 function slideShow() {
   
@@ -75,20 +79,18 @@ function slideShow() {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   function initializeSlideShowMarkup() {  
-    var slideWidthMax = maxSlideWidth(); // Returns a value that is always in pixel units.
-    var slideHeightMax = maxSlideHeight(); // Returns a value that is always in pixel units.
-    
     globals.wrapperObject.style.position = "relative";
-    globals.wrapperObject.style.overflow = "hidden"; // This is just a safety thing.
-    globals.wrapperObject.style.width = slideWidthMax + "px";
-    globals.wrapperObject.style.height = slideHeightMax + "px";
+    globals.wrapperObject.style.overflow = "hidden";
     
     var slideCount = globals.slideImages.length;
     for (var i = 0; i < slideCount; i++) { 
-      globals.slideImages[i].style.opacity = 0;
       globals.slideImages[i].style.position = "absolute";
-      globals.slideImages[i].style.top = (slideHeightMax - globals.slideImages[i].getBoundingClientRect().height) / 2 + "px";   
-      globals.slideImages[i].style.left = (slideWidthMax - globals.slideImages[i].getBoundingClientRect().width) / 2 + "px";               
+      globals.slideImages[i].style.top = "0px";
+      globals.slideImages[i].style.left = "0px";
+      globals.slideImages[i].style.width = "100%";
+      globals.slideImages[i].style.height = "100%";
+      globals.slideImages[i].style.objectFit = "cover";
+      globals.slideImages[i].style.opacity = (i === 0) ? 1 : 0;
     }
     
     globals.slideImages[0].style.opacity = 1; // Make the first slide visible.
